@@ -28,11 +28,35 @@
 
     <artifactId>keycloak-services</artifactId>
     <name>Keycloak REST Services</name>
+    <version>6.0.1-2</version>
     <description />
 
     <properties>
         <version.swagger.doclet>1.1.2</version.swagger.doclet>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Parallels Maven Release Repository</name>
+            <url>${env.NEXUS_URL}/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>POA Maven Nexus Snapshot Repository</name>
+            <url>${env.NEXUS_URL}/nexus/content/repositories/thirdparty/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-common</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -46,6 +70,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -64,16 +89,19 @@
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi</artifactId>
             <scope>provided</scope>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi-private</artifactId>
             <scope>provided</scope>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-ldap-federation</artifactId>
             <scope>provided</scope>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
@@ -151,11 +179,13 @@
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-saml-core-public</artifactId>
             <scope>provided</scope>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-saml-core</artifactId>
             <scope>provided</scope>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
