@@ -58,16 +58,17 @@ public class UserStorageSyncManager {
 
             @Override
             public void run(KeycloakSession session) {
-                List<RealmModel> realms = session.realms().getRealmsWithProviderType(UserStorageProvider.class);
-                for (final RealmModel realm : realms) {
-                    List<UserStorageProviderModel> providers = realm.getUserStorageProviders();
-                    for (final UserStorageProviderModel provider : providers) {
-                        UserStorageProviderFactory factory = (UserStorageProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(UserStorageProvider.class, provider.getProviderId());
-                        if (factory instanceof ImportSynchronization && provider.isImportEnabled()) {
-                            refreshPeriodicSyncForProvider(sessionFactory, timer, provider, realm.getId());
-                        }
-                    }
-                }
+// We don't use ImportSynchronization user storage
+//                List<RealmModel> realms = session.realms().getRealmsWithProviderType(UserStorageProvider.class);
+//                for (final RealmModel realm : realms) {
+//                    List<UserStorageProviderModel> providers = realm.getUserStorageProviders();
+//                    for (final UserStorageProviderModel provider : providers) {
+//                        UserStorageProviderFactory factory = (UserStorageProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(UserStorageProvider.class, provider.getProviderId());
+//                        if (factory instanceof ImportSynchronization && provider.isImportEnabled()) {
+//                            refreshPeriodicSyncForProvider(sessionFactory, timer, provider, realm.getId());
+//                        }
+//                    }
+//                }
 
                 ClusterProvider clusterProvider = session.getProvider(ClusterProvider.class);
                 clusterProvider.registerListener(USER_STORAGE_TASK_KEY, new UserStorageClusterListener(sessionFactory));
