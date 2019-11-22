@@ -47,6 +47,13 @@ public class UserStorageSyncManager {
 
     private static final Logger logger = Logger.getLogger(UserStorageSyncManager.class);
 
+
+    private void callRefreshPeriodicSyncForProvider(final KeycloakSessionFactory sessionFactory, final TimerProvider timer) {
+        EntityManager em = session.getProvider(JpaConnectionProvider.class).getEntityManager();
+
+
+    }
+
     /**
      * Check federationProviderModel of all realms and possibly start periodic sync for them
      *
