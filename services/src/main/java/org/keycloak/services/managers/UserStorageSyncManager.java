@@ -58,16 +58,18 @@ public class UserStorageSyncManager {
 
             @Override
             public void run(KeycloakSession session) {
-                List<RealmModel> realms = session.realms().getRealmsWithProviderType(UserStorageProvider.class);
-                for (final RealmModel realm : realms) {
-                    List<UserStorageProviderModel> providers = realm.getUserStorageProviders();
-                    for (final UserStorageProviderModel provider : providers) {
-                        UserStorageProviderFactory factory = (UserStorageProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(UserStorageProvider.class, provider.getProviderId());
-                        if (factory instanceof ImportSynchronization && provider.isImportEnabled()) {
-                            refreshPeriodicSyncForProvider(sessionFactory, timer, provider, realm.getId());
-                        }
-                    }
-                }
+                // This code loads all realms at startup. On slow DB connection startup time exceeds 5 min.
+                // We at Ingram don't use ImportSynchronization user storage, so comment this code until DB connection will be fast on US hub.
+//                List<RealmModel> realms = session.realms().getRealmsWithProviderType(UserStorageProvider.class);
+//                for (final RealmModel realm : realms) {
+//                    List<UserStorageProviderModel> providers = realm.getUserStorageProviders();
+//                    for (final UserStorageProviderModel provider : providers) {
+//                        UserStorageProviderFactory factory = (UserStorageProviderFactory) session.getKeycloakSessionFactory().getProviderFactory(UserStorageProvider.class, provider.getProviderId());
+//                        if (factory instanceof ImportSynchronization && provider.isImportEnabled()) {
+//                            refreshPeriodicSyncForProvider(sessionFactory, timer, provider, realm.getId());
+//                        }
+//                    }
+//                }
 
                 ClusterProvider clusterProvider = session.getProvider(ClusterProvider.class);
                 clusterProvider.registerListener(USER_STORAGE_TASK_KEY, new UserStorageClusterListener(sessionFactory));
